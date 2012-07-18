@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vuuvv.page", "vuuvv.page\vu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vuuvv.console", "vuuvv.console\vuuvv.console.csproj", "{9B81E236-C39F-4DB3-A826-9187BE30386B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vuuvv.utils", "vuuvv.utils\vuuvv.utils.csproj", "{D9604D27-91E8-4C1D-A90E-5FFAD8B26696}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,16 @@ Global
 		{9B81E236-C39F-4DB3-A826-9187BE30386B}.Release|Mixed Platforms.Build.0 = Release|x86
 		{9B81E236-C39F-4DB3-A826-9187BE30386B}.Release|x86.ActiveCfg = Release|x86
 		{9B81E236-C39F-4DB3-A826-9187BE30386B}.Release|x86.Build.0 = Release|x86
+		{D9604D27-91E8-4C1D-A90E-5FFAD8B26696}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9604D27-91E8-4C1D-A90E-5FFAD8B26696}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9604D27-91E8-4C1D-A90E-5FFAD8B26696}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D9604D27-91E8-4C1D-A90E-5FFAD8B26696}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D9604D27-91E8-4C1D-A90E-5FFAD8B26696}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D9604D27-91E8-4C1D-A90E-5FFAD8B26696}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9604D27-91E8-4C1D-A90E-5FFAD8B26696}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9604D27-91E8-4C1D-A90E-5FFAD8B26696}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D9604D27-91E8-4C1D-A90E-5FFAD8B26696}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D9604D27-91E8-4C1D-A90E-5FFAD8B26696}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

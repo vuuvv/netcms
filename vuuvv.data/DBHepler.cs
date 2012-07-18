@@ -17,7 +17,7 @@ namespace vuuvv.data
         private const string CONNECTION_KEY = "CONTEXT_CONNECTION";
 
         private static DbProviderFactory _factory;
-        private static DbProviderFactory factory
+        private static DbProviderFactory Factory
         {
             get
             {
@@ -29,14 +29,14 @@ namespace vuuvv.data
             }
         }
 
-        public static DbConnection connection
+        public static DbConnection Connection
         {
             get
             {
-                var conn = context_connection;
+                var conn = ContextConnection;
                 if (conn == null || conn.State == ConnectionState.Closed)
                 {
-                    conn = factory.CreateConnection();
+                    conn = Factory.CreateConnection();
                     conn.ConnectionString = string.Format("Data Source={0}", dbpath);
                     conn.Open();
                 }
@@ -44,47 +44,47 @@ namespace vuuvv.data
             }
         }
 
-        private static DbConnection context_connection
+        private static DbConnection ContextConnection
         {
             get
             {
-                return get_context<DbConnection>(CONNECTION_KEY);
+                return GetContext<DbConnection>(CONNECTION_KEY);
             }
             set
             {
-                set_context(CONNECTION_KEY, value);
+                SetContext(CONNECTION_KEY, value);
             }
         }
 
-        private static DbTransaction context_transaction
+        private static DbTransaction ContextTransaction
         {
             get
             {
-                return get_context<DbTransaction>(TRANSACTION_KEY);
+                return GetContext<DbTransaction>(TRANSACTION_KEY);
             }
             set
             {
-                set_context(TRANSACTION_KEY, value);
+                SetContext(TRANSACTION_KEY, value);
             }
         }
 
-        private static T get_context<T>(string key)
+        private static T GetContext<T>(string key)
         {
-            if (in_web_context)
+            if (InWebContext)
                 return (T)HttpContext.Current.Items[key];
             else
                 return (T)CallContext.GetData(key);
         }
 
-        private static void set_context(string key, object value)
+        private static void SetContext(string key, object value)
         {
-            if (in_web_context)
+            if (InWebContext)
                 HttpContext.Current.Items[key] = value;
             else
                 CallContext.SetData(key, value);
         }
 
-        private static bool in_web_context
+        private static bool InWebContext
         {
             get
             {
@@ -92,13 +92,13 @@ namespace vuuvv.data
             }
         }
 
-        public static void close()
+        public static void Close()
         {
-            if (context_connection != null)
-                context_connection.Close();
+            if (ContextConnection != null)
+                ContextConnection.Close();
         }
 
-        private static void prepare(DbCommand cmd, DbConnection conn, DbTransaction trans, string sql, Dictionary<string, object> parameters)
+        private static void Prepare(DbCommand cmd, DbConnection conn, DbTransaction trans, string sql, Dictionary<string, object> parameters)
         {
             cmd.Connection = conn;
             cmd.CommandText = sql;
@@ -109,7 +109,7 @@ namespace vuuvv.data
             {
                 foreach (var entry in parameters)
                 {
-                    DbParameter param = factory.CreateParameter();
+                    DbParameter param = Factory.CreateParameter();
                     param.ParameterName = entry.Key;
                     param.Value = entry.Value;
                     cmd.Parameters.Add(param);
@@ -117,7 +117,7 @@ namespace vuuvv.data
             }
         }
 
-        public static object convert_to(object obj, Type t)
+        public static object ConvertTo(object obj, Type t)
         {
             Type ot = obj.GetType();
             if (ot == t)
@@ -127,52 +127,52 @@ namespace vuuvv.data
             return method.Invoke(null, new[] { obj });
         }
 
-        public static T convert_to<T>(object obj)
+        public static T ConvertTo<T>(object obj)
         {
-            return (T)convert_to(obj, typeof(T));
+            return (T)ConvertTo(obj, typeof(T));
         }
 
-        public static int execute(string sql)
+        public static int Execute(string sql)
         {
-            using (DbCommand cmd = factory.CreateCommand())
+            using (DbCommand cmd = Factory.CreateCommand())
             {
-                cmd.Connection = connection;
+                cmd.Connection = Connection;
                 cmd.CommandText = sql;
                 return cmd.ExecuteNonQuery();
             }
         }
 
-        public static int execute(string sql, Dictionary<string, Object> args)
+        public static int Execute(string sql, Dictionary<string, Object> args)
         {
-            using (DbCommand cmd = factory.CreateCommand())
+            using (DbCommand cmd = Factory.CreateCommand())
             {
-                prepare(cmd, connection, null, sql, args);
+                Prepare(cmd, Connection, null, sql, args);
                 int rows = cmd.ExecuteNonQuery();
                 cmd.Parameters.Clear();
                 return rows;
             }
         }
 
-        public static int insert(string table, string sql, Dictionary<string, object> args)
+        public static int Insert(string table, string sql, Dictionary<string, object> args)
         {
-            using (DbCommand cmd = factory.CreateCommand())
+            using (DbCommand cmd = Factory.CreateCommand())
             {
-                prepare(cmd, connection, null, sql, args);
+                Prepare(cmd, Connection, null, sql, args);
                 cmd.ExecuteNonQuery();
                 cmd.Parameters.Clear();
                 // Access: cmd.CommandText = "SELECT @@IDENTITY FROM " + table;
                 cmd.CommandText = "SELECT last_insert_rowid() FROM " + table;
                 DbDataReader reader = cmd.ExecuteReader();
                 reader.Read();
-                return convert_to<int>(reader[0]);
+                return ConvertTo<int>(reader[0]);
             }
         }
 
-        public static DbDataReader query(string sql)
+        public static DbDataReader Query(string sql)
         {
-            using (DbCommand cmd = factory.CreateCommand())
+            using (DbCommand cmd = Factory.CreateCommand())
             {
-                cmd.Connection = connection;
+                cmd.Connection = Connection;
                 cmd.CommandText = sql;
 
                 DbDataReader reader = cmd.ExecuteReader();
@@ -180,22 +180,22 @@ namespace vuuvv.data
             }
         }
 
-        public static DbDataReader query(string sql, Dictionary<string, object> args)
+        public static DbDataReader Query(string sql, Dictionary<string, object> args)
         {
-            using (DbCommand cmd = factory.CreateCommand())
+            using (DbCommand cmd = Factory.CreateCommand())
             {
-                prepare(cmd, connection, null, sql, args);
+                Prepare(cmd, Connection, null, sql, args);
                 DbDataReader reader = cmd.ExecuteReader();
                 cmd.Parameters.Clear();
                 return reader;
             }
         }
 
-        public static object one(string sql, Type t)
+        public static object One(string sql, Type t)
         {
-            using (DbCommand cmd = factory.CreateCommand())
+            using (DbCommand cmd = Factory.CreateCommand())
             {
-                cmd.Connection = connection;
+                cmd.Connection = Connection;
                 cmd.CommandText = sql;
 
                 var obj = cmd.ExecuteScalar();
@@ -205,14 +205,23 @@ namespace vuuvv.data
                 }
                 else
                 {
-                    return convert_to(obj, t);
+                    return ConvertTo(obj, t);
                 }
             }
         }
 
-        public static T one<T>(string sql)
+        public static T One<T>(string sql)
         {
-            return (T)one(sql, typeof(T));
+            return (T)One(sql, typeof(T));
+        }
+
+        public static string QuoteName(string name)
+        {
+            if (name.StartsWith("\"") && name.EndsWith("\""))
+            {
+                return name;
+            }
+            return "\"" + name + "\"";
         }
     }
 }
