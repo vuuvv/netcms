@@ -14,3 +14,10 @@ class Page(MPTTModel):
 	publish_date = models.DateTimeField(null=True)
 	status = models.IntegerField()
 
+class Test(models.Model):
+	Name = models.CharField(max_length=100)
+	Address = models.CharField(max_length=100)
+	Email = models.CharField(max_length=100)
+
+
+

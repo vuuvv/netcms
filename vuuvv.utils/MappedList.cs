@@ -5,17 +5,17 @@ using System.Text;
 
 namespace vuuvv.utils
 {
-    public class MappedList<T>
-        where T : IMapped
+    public class MappedList<TKey, TValue>
+        where TValue : IMapped<TKey>
     {
-        private OrderedDictionary<string, T> _dict = new OrderedDictionary<string, T>();
+        private OrderedDictionary<TKey, TValue> _dict = new OrderedDictionary<TKey, TValue>();
 
-        public int Add(T data)
+        public int Add(TValue data)
         {
             return _dict.Add(data.GetKey(), data);
         }
 
-        public void Insert(int index, T data) 
+        public void Insert(int index, TValue data) 
         {
             _dict.Insert(index, data.GetKey(), data);
         }
@@ -33,7 +33,7 @@ namespace vuuvv.utils
             _dict.Clear();
         }
 
-        public bool ContainsKey(string key)
+        public bool ContainsKey(TKey key)
         {
             return _dict.ContainsKey(key);
         }
@@ -43,12 +43,12 @@ namespace vuuvv.utils
             get { return false; }
         }
 
-        public ICollection<string> Keys
+        public ICollection<TKey> Keys
         {
             get { return _dict.Keys; }
         }
 
-        public ICollection<T> Values
+        public ICollection<TValue> Values
         {
             get
             {
@@ -56,17 +56,17 @@ namespace vuuvv.utils
             }
         }
 
-        public int IndexOfKey(string key)
+        public int IndexOfKey(TKey key)
         {
             return _dict.IndexOfKey(key);
         }
 
-        public bool Remove(string key)
+        public bool Remove(TKey key)
         {
             return _dict.Remove(key);
         }
 
-        public T this[string key]
+        public TValue this[TKey key]
         {
             get
             {
@@ -78,7 +78,7 @@ namespace vuuvv.utils
             }
         }
 
-        public T this[int index]
+        public TValue this[int index]
         {
             get
             {

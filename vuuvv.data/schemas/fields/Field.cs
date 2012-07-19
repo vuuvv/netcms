@@ -8,7 +8,7 @@ using vuuvv.utils;
 namespace vuuvv.data.schemas.fields
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
-    public abstract class Field : Schema, IMapped
+    public abstract class Field : Schema, IMapped<string>
     {
         public string VerboseName { get; set; }
         public bool PrimaryKey { get; set; }

@@ -5,8 +5,8 @@ using System.Text;
 
 namespace vuuvv.utils
 {
-    public interface IMapped
+    public interface IMapped<TKey>
     {
-        string GetKey();
+        TKey GetKey();
     }
 }

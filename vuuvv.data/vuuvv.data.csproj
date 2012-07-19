@@ -56,8 +56,12 @@
     <Compile Include="schemas\Schema.cs" />
     <Compile Include="schemas\Table.cs" />
     <Compile Include="sql\compiler\Compiler.cs" />
+    <Compile Include="sql\compiler\InsertCompiler.cs" />
+    <Compile Include="sql\compiler\UpdateCompiler.cs" />
+    <Compile Include="sql\query\InsertQuery.cs" />
     <Compile Include="sql\query\Query.cs" />
     <Compile Include="sql\compiler\SQLCompiler.cs" />
+    <Compile Include="sql\query\UpdateQuery.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\vuuvv.utils\vuuvv.utils.csproj">

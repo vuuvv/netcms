@@ -39,6 +39,7 @@ namespace vuuvv.data
                     conn = Factory.CreateConnection();
                     conn.ConnectionString = string.Format("Data Source={0}", dbpath);
                     conn.Open();
+                    ContextConnection = conn;
                 }
                 return conn;
             }
